@@ -1,45 +1,58 @@
+<!-- File: src/main/resources/static/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Hello WebSocket</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va\+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="/main.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
     <script src="/app.js"></script>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-    enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
+<noscript>
+    <h2 style="color: #ff0000">
+        Seems your browser doesn\\'t support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!
+    </h2>
+</noscript>
 <div id="main-content" class="container">
-    <div class="row">
-        <div class="col-md-6">
+    <!-- Username input shown when not connected -->
+    <div id="username-container" class="row">
+        <div class="col-md-12">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
-                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                    </button>
+                    <label for="username">Name:</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter your name">
                 </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
+                <button id="connect" class="btn btn-default" type="submit">Connect</button>
             </form>
         </div>
     </div>
-    <div class="row">
+    <!-- User display and disconnect button after connection -->
+    <div id="user-display" class="row" style="display:none; margin-top:10px;">
+        <div class="col-md-12">
+            <span>Current User: <span id="currentUser"></span></span>
+            <button id="disconnect" class="btn btn-default" type="submit">Disconnect</button>
+        </div>
+    </div>
+    <!-- Message input shown after connection -->
+    <div id="message-container" class="row" style="display:none; margin-top:10px;">
+        <div class="col-md-12">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <input type="text" id="message" class="form-control" placeholder="Type your message">
+                </div>
+                <button id="send" class="btn btn-default" type="submit" disabled="disabled">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
         <div class="col-md-12">
             <table id="conversation" class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Greetings</th>
+                    <th>Messages</th>
                 </tr>
                 </thead>
                 <tbody id="greetings">
